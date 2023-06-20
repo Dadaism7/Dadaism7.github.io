@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*******************************************************************************
  * Variables used throughout the theme.
  * To adjust anything, simply edit the variables below and rebuild the theme.
@@ -1173,6 +1174,15 @@ nav[data-toggle=toc] .nav-link.active:hover {
 .card .card-body .card-text {
   flex-grow: 1;
   margin-bottom: 10px;
+}
+
+.card .card-body .card-text p {
+  text-indent: -0.5em;
+  padding-left: 0.5em;
+}
+
+.card .card-body .card-text p:before {
+  content: "· ";
 }
 
 .scroll-section {
