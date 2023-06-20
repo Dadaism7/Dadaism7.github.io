@@ -1279,6 +1279,14 @@ nav[data-toggle="toc"] {
   flex-grow: 1;
   margin-bottom: 10px;
 }
+.card .card-body .card-text p {
+  text-indent: -0.5em;
+  padding-left: 0.5em;
+}
+
+.card .card-body .card-text p:before {
+  content: '· ';
+}
 .scroll-section {
   opacity: 0;
   transition: opacity 1s ease-in-out;

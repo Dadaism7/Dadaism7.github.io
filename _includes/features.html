@@ -18,8 +18,15 @@
       </video>
     {%- endif %}
     <div class="card-body">
-      <h4 class="card-title text-lowercase">{{ feature.title }}</h2>
-      <p class="card-text">{{ feature.description }}</p>
+      <h4 class="card-title">{{ feature.title }}</h4>
+      <div class="card-text">
+        {% assign description_lines = feature.description | split: '</li>' %}
+        {% for line in description_lines %}
+        {% if forloop.first == false %}
+        <p>{{ line | strip_html | strip }}</p>
+        {% endif %}
+        {% endfor %}
+      </div>
       <div class="row ml-1 mr-1 p-0">
         {%- if feature.github -%}
         <div class="github-icon">
