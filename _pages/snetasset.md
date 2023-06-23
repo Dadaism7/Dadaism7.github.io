@@ -1,27 +1,32 @@
 ---
 layout: page-notitle
 permalink: /snetasset/
-title: test
+title: snet-asset
 pagination:
     enabled: true
-    collection: "images"
+    collection: "snet-asset"
     permalink: /page/:num/
     per_page: 12
     sort_field: date
     sort_reverse: true
     trail:
-        before: 1 # The number of links before the current page
-        after: 3  # The number of links after the current page
-    indexpage: 'image'
+    before: 1 # The number of links before the current page
+    after: 3  # The number of links after the current page
+    indexpage: 'snet-asset'
 ---
 
+<header class="post-header center-text">
+    <h1 class="post-title">ScenarioNet Demo</h1>
+</header>
 <div class="infinite-scroll-gallery">
     <div class="image-gallery">
-        {% for image in paginator.posts %}
-        <div class="image">
-            <img src="{{ image.src }}" alt="{{ image.src }}">
-        </div>
-        {% endfor %}
+    {% for video in paginator.posts %}
+    <div class="image">
+        <video loop muted playsinline data-src="{{ video.src }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    {% endfor %}
     </div>
     {% if paginator.next_page %}
     <div class="pagination">
@@ -49,27 +54,48 @@ document.addEventListener('DOMContentLoaded', function() {
     outlayer: msnry,  // use Masonry as the layout view
   });
 
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var video = entry.target;
+        if (video) {
+          video.src = video.getAttribute('data-src');
+          video.load();
+        }
+      }
+    });
+  }, {
+    rootMargin: '100px' // load when the video is within 100px from the viewport
+  });
+
+  function initializeVideo(video) {
+    video.onloadeddata = function() {
+      msnry.layout();
+      video.play().catch(function(error) {
+        console.log('Error attempting to play:', error);
+      });
+    };
+
+    video.onerror = function() {
+      console.log('Error loading video:', video.src);
+      video.parentElement.style.display = 'none'; // Hide the video
+    };
+
+    observer.observe(video);
+  }
+
+  document.querySelectorAll('.image-gallery video').forEach(initializeVideo);
+
   infScroll.on('append', function(response, path, items) {
-    setTimeout(function() {
-        items.forEach(function(item) {
-            // layout Masonry after each image loads
-            imagesLoaded(item.element, function() {
-                msnry.appended(item.element);
-            });
-        });
-    }, 100);
+    items.forEach(function(item) {
+      var video = item.querySelector('video');
+      if (video) {
+        initializeVideo(video);
+      }
+    });
   });
 });
-
-
 </script>
-
-
-
-
-
-
-
 
 
 

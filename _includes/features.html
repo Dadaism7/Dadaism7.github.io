@@ -1,32 +1,31 @@
 <!-- _includes/features.html -->
 <div class="grid-sizer clearfix {{ include.cols_class }}"></div>
 <div class="grid-item  clearfix {{ include.cols_class }} {% if sorted_features.size < 3 %}grid-item-wide{% endif %}">
-  {% if feature.redirect -%}
-  <a href="{{ feature.redirect }}">
-  {%- else -%}
-  <a href="{{ feature.url | relative_url }}">
-  {%- endif %}
+
+<!--  PZH Note: Remove URL-->
+<!--  {% if feature.redirect -%}-->
+<!--  <a href="{{ feature.redirect }}">-->
+<!--  {%- else -%}-->
+<!--  <a href="{{ feature.url | relative_url }}">-->
+<!--  {%- endif %}-->
+
+
   <div class="card hoverable">
     {%- if feature.img %}
     {%- include figure.html
       path=feature.img
       alt="feature thumbnail" -%}
     {%- elsif feature.video %}
-      <video autoplay loop muted>
-        <source src="{{ feature.video | relative_url }}" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+    {%- include video.html
+      path=feature.video
+      autoplay=true
+      muted=true
+      loop=true
+    -%}
     {%- endif %}
     <div class="card-body">
       <h4 class="card-title">{{ feature.title }}</h4>
-      <div class="card-text">
-        {% assign description_lines = feature.description | split: '</li>' %}
-        {% for line in description_lines %}
-        {% if forloop.first == false %}
-        <p>{{ line | strip_html | strip }}</p>
-        {% endif %}
-        {% endfor %}
-      </div>
+      <p class="card-text">{{ feature.description }}</p>
       <div class="row ml-1 mr-1 p-0">
         {%- if feature.github -%}
         <div class="github-icon">

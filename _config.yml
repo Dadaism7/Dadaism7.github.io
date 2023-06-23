@@ -189,7 +189,7 @@ collections:
   metadrive:
     output: true
     permalink: /metadrive/:path/
-  images:
+  snet-asset:
     output: true
 
 announcements:

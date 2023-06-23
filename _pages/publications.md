@@ -1,12 +1,11 @@
 ---
 layout: page
 permalink: /publications/
-title: publications
-description: publications by categories in reversed chronological order.
+title: Publications
+description: the publications from our team
 years: [2023,2022,2021]
 nav: true
-nav_order: 2
-hide_from_nav: true
+nav_order: 3
 ---
 <!-- _pages/publications.md -->
 <div class="publications">

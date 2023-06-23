@@ -1,11 +1,10 @@
 ---
 layout: page-center
 permalink: /team/
-title: team
+title: Team
 description: "Meet Our Team Member!"
 nav: true
-nav_order: 5
-hide_from_nav: true
+nav_order: 4
 ---
 
 <section class="our-webcoderskull">
