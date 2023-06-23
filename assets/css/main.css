@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /*******************************************************************************
  * Variables used throughout the theme.
  * To adjust anything, simply edit the variables below and rebuild the theme.
@@ -593,7 +592,7 @@ footer.sticky-bottom {
 }
 .features .grid-sizer,
 .features .grid-item {
-  width: 300px;
+  width: 400px;
   margin-bottom: 10px;
 }
 .features .grid-item-wide {
@@ -1141,7 +1140,7 @@ nav[data-toggle=toc] .nav-link.active:hover {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: minmax(300px, 1fr);
   grid-auto-rows: minmax(100px, auto);
   grid-gap: 20px;
 }
@@ -1149,19 +1148,23 @@ nav[data-toggle=toc] .nav-link.active:hover {
 .grid-item {
   display: flex;
   flex-direction: column;
-  align-items: stretch; /* New line */
+  align-items: stretch;
+  min-width: 400px;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   height: 100%;
+  border-radius: 1em;
 }
 
-.card img, .card video {
+.card img, .card video, .card figure {
   object-fit: cover;
   width: 100%;
   height: 200px;
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
 }
 
 .card .card-body {
@@ -1169,20 +1172,16 @@ nav[data-toggle=toc] .nav-link.active:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-top: -1em;
 }
 
 .card .card-body .card-text {
   flex-grow: 1;
-  margin-bottom: 10px;
+  margin-top: -1em;
 }
 
-.card .card-body .card-text p {
-  text-indent: -0.5em;
-  padding-left: 0.5em;
-}
-
-.card .card-body .card-text p:before {
-  content: "· ";
+.card-body li {
+  vertical-align: text-top;
 }
 
 .scroll-section {
@@ -1223,7 +1222,7 @@ nav[data-toggle=toc] .nav-link.active:hover {
   width: 30%;
   margin: 10px;
 }
-.infinite-scroll-gallery .image img {
+.infinite-scroll-gallery .image img, .infinite-scroll-gallery .image video {
   width: 100%;
   height: auto;
 }

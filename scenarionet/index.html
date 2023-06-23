@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>scenarionet | MetaDriverse</title>
+    <title>ScenarioNet | MetaDriverse</title>
     <meta name="author" content="MetaDriverse  ">
     <meta name="description" content="MetaDrive for AI and Autonomy Research!
 ">
@@ -86,26 +86,22 @@
 
               <!-- About -->
               <li class="nav-item ">
-                <a class="nav-link" href="/">about</a>
+                <a class="nav-link" href="/">About</a>
               </li>
               
 
               <!-- Other pages -->
               <li class="nav-item ">
-                <a class="nav-link" href="/metadrive-features/">metadrive</a>
+                <a class="nav-link" href="/metadrive/">MetaDrive</a>
               </li>
               <li class="nav-item active">
-                <a class="nav-link" href="/scenarionet/">scenarionet<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/scenarionet/">ScenarioNet<span class="sr-only">(current)</span></a>
               </li>
-              <li class="nav-item dropdown ">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">more</a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="/publications/">publications</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="/repositories/">repositories</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="/team/">team</a>
-                </div>
+              <li class="nav-item ">
+                <a class="nav-link" href="/publications/">Publications</a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="/team/">Team</a>
               </li>
 
               <!-- Toogle theme mode -->
@@ -143,37 +139,116 @@
     <div class="d-block d-sm-none text-center mb-3">
         <h2 style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); font-weight: bold;">ScenarioNet</h2>
         <p style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); font-size: 1.2em; font-weight: bold;">Open-source platform for large-scale traffic scenario modeling and simulation</p>
-        <a href="/snetasset/image.html" class="btn btn-primary btn-lg rounded-pill px-4 py-2 my-3" style="background: linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb);">Browse Scenario</a>
     </div>
     <!-- Video embed -->
     <div class="embed-responsive embed-responsive-16by9">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/C3DwU7GHJe0?autoplay=1&amp;mute=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
-        <!-- Desktop layout -->
+<!--
+<iframe width="560" height="315" src="https://www.youtube.com/embed/C3DwU7GHJe0?autoplay=1&mute=1&loop=1&playlist=C3DwU7GHJe0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+-->
+<video style="border-radius: 1em;" width="100%" max-width="800px" loop="" autoplay="" muted="" playsinline="" src="../assets/scenarionet/teaser_video.mp4">
+    </video>
+<!-- Desktop layout -->
         <div class="position-absolute w-100 h-100 d-none d-sm-flex flex-column align-items-center justify-content-center text-center" style="top: 0; left: 0;">
-            <h2 style="color: white; text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); font-weight: bold;">ScenarioNet</h2>
+            <h1 style="color: white; text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); font-weight: bold;">ScenarioNet</h1>
             <p style="color: white; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); font-size: 1.2em; font-weight: bold;">Open-source platform for large-scale traffic scenario modeling and simulation</p>
-            <a href="/snetasset/image.html" class="btn btn-primary btn-lg rounded-pill px-4 py-2 my-3" style="background: linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb);">Browse Scenario</a>
+            <a href="/snetasset/snet-asset.html" class="btn btn-primary btn-lg rounded-pill px-4 py-2 my-3" style="background: linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb);">Browse Scenario</a>
         </div>
     </div>
 </div>
-<div class="col-12 md-5 text-center" style="margin-top: 100px; margin-bottom: 100px;">    
-    <h3>Meet ScenarioNet</h3>
-    <p><b>ScenarioNet</b> is an open-sourced platform for large-scale traffic scenario modeling and simulation. 
-        It takes various of the input data, including procedurdal generated scenarios, human-crafted safety-critical
-        data, and more importantly: real-world data. It provides a unified interface for the user to easily import
-        and convert the data from various driving dataset such as Waymo, nuScenes, Lyft L5, and nuPlan datasets.
-        These realistic data can be further replayed and interact in our simulation environment, MetaDrive.
-    </p>
+
+<!-- Disable changing the color of a clicked link -->
+<style>
+a:link, a:visited, a:hover, a:active {
+    color: var(--global-text-color);
+    text-decoration: underline;
+}
+</style>
+
+<div class="col-12 md-5" style="margin-top: 20px;" align="center">
+<h5 style="text-align: center">
+<a href="https://metadriverse.github.io/scenarionet/" rel="external nofollow noopener" target="_blank"><b>Webpage</b></a> |
+<a href="https://github.com/metadriverse/scenarionet" rel="external nofollow noopener" target="_blank"><b>Code</b></a> |
+<a href="#"><b>Video</b></a> |
+<a href="https://arxiv.org/abs/2306.12241" rel="external nofollow noopener" target="_blank"><b>Paper</b></a>
+</h5>
 </div>
-<div class="col-12 text-center" style="margin-top: 100px; margin-bottom: 100px;"> 
-    <h3>ScenarioNet's System Design</h3>  
+
+<div class="col-12 md-5" style="margin-top: 100px; margin-bottom: 100px">    
+    <h3 style="text-align: center">Meet ScenarioNet</h3>
+    <p><b>ScenarioNet</b> is an open-sourced platform for large-scale traffic scenario modeling and simulation.</p>
+<li style="padding: 0.5rem 0.5rem;">
+ScenarioNet defines a unified scenario description format containing HD maps and detailed object annotations.
+</li>
+<li style="padding: 0.5rem 0.5rem;">
+Scenarios recorded in this format can be replayed in the digital twins with multiple views, ranging from Bird-Eye-View layout to realistic 3D rendering.
+<!-- reflect the real-world complexity of traffic behaviors, substantially accelerating autonomous driving research. --> 
+<!-- repository of real-world traffic scenarios from the heterogeneous data in various driving datasets including Waymo, nuScenes, Lyft L5, and nuPlan datasets. --> 
+<!-- All scenario description files contain HD maps and detailed annotations which accurately reflect the real-world complexity of traffic behaviors, substantially accelerating autonomous driving research. -->
+</li>
+<li style="padding: 0.5rem 0.5rem;">
+<!-- For harvesting a massive number of traffic scenarios, -->
+ScenarioNet provides tools to build and manage databases
+built from various data sources including real-world datasets like Waymo, nuScenes, Lyft L5, and nuPlan datasets and synthetic datasets like the procedural generated ones and safety-critical ones.
+
+<!-- ScenarioNet pipelines those scenarios and creates log-replayed or interactive environments --> 
+<!-- with in multiple views from Bird-Eye-View layout to realistic 3D rendering in MetaDrive simulator, --> 
+<!-- providing a benchmark for training ML-based driving policies and evaluating the safety of autonomous driving stacks in simulation before their real-world deployment. -->  
+</li>
+<li style="padding: 0.5rem 0.5rem;">
+We demonstrate several applications of ScenarioNet including large-scale scenario generation, AD testing, imitation learning, and reinforcement learning in both single-agent and multi-agent settings.
+The results imply scaling up the training data brings new research opportunities in machine learning and autonomous driving.  
+
+<!-- Allowing harvesting a massive number of complex traffic scenarios and recreate their digital twins in simulation, we hope <b>ScenarioNet</b> can facilitate many research opportunities in machine learning and autonomous driving. -->
+</li>
+</div>
+
+<div class="col-12" style="margin-top: 100px; margin-bottom: 100px;"> 
+    <h3 style="text-align: center">ScenarioNet's System Design</h3>
     <div class="img-container">
-        <img src="/assets/img/system.png" class="my-image" alt="Your Image">
+        <img src="../assets/img/system.jpg" class="my-image" alt="Your Image">
     </div>
-    <div class="description">
-        <p>Your description here.</p>
+    <div class="description" style="margin-top: 1em;">
+<b>ScenarioNet</b>  consists of the data layer, system layer, and application layer.
+Various datasets are unified into an internal scenario description.
+The system layer then provides a set of tools to operate on data efficiently, such as filtering, merging, sanity-check, 
+splitting and so on.
+Once the database is ready, it can be loaded into MetaDrive for large-scale simulation and supports applications. 
     </div>
 </div>
+
+<div class="col-12" style="margin-top: 100px; margin-bottom: 100px;"> 
+    <h3 style="text-align: center">Multi-sensory Simulation</h3>
+    <video width="100%" max-width="800px" loop="" autoplay="" muted="" playsinline="" src="../assets/scenarionet/sn_sensors_cropped.mp4">
+    </video>
+    <div class="description">
+        <b>ScenarioNet</b> leverages <a href="../metadrive">MetaDrive Simulator</a> for multi-modal observation simulation.
+    </div>
+</div>
+
+<div class="col-12" style="margin-top: 100px; margin-bottom: 100px;"> 
+    <h3 style="text-align: center">Traffic Scenarios from Various Datasets</h3>
+    <video width="100%" max-width="800px" loop="" autoplay="" muted="" playsinline="" src="../assets/scenarionet/montage.mp4">
+    </video>
+<div class="description">
+    <b>ScenarioNet</b> reads from real world dataset such as Waymo, nuScenes, Lyft L5, and nuPlan datasets and creates
+interactive environment for closed-loop simulation.
+    </div>
+</div>
+
+<div class="col-12" style="margin-top: 100px; margin-bottom: 100px;"> 
+    <h3 style="text-align: center">tSNE Visualization of Scenario Embeddings</h3>
+    <img width="100%" src="../assets/scenarionet/sn_tsne.jpg">
+</div>
+
+<div class="col-12 md-5" style="margin-top: 100px; margin-bottom: 100px;">
+<h3 style="text-align: center">AD Stack Testing</h3>
+<iframe width="47%" height="310px" src="https://www.youtube.com/embed/KjlPB0nCTvg?autoplay=1&amp;loop=1&amp;mute=1&amp;playlist=KjlPB0nCTvg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<iframe width="47%" height="310px" src="https://www.youtube.com/embed/WWwdnURnOBM?t=10&amp;loop=1&amp;autoplay=1&amp;mute=1&amp;playlist=WWwdnURnOBM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+    <div class="description">
+        <b>ScenarioNet</b> bridges OpenPilot (Left) and ROS (Right) for autonomous driving testing.
+    </div>
+</div>
+
 
   </article>
 
@@ -188,7 +263,7 @@
     <footer class="fixed-bottom">
       <div class="container mt-0">
         © Copyright 2023 MetaDriverse  . Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme.
-Last updated: June 20, 2023.
+Last updated: June 23, 2023.
       </div>
     </footer>
 
