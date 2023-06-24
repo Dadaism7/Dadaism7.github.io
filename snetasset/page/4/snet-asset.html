@@ -229,29 +229,42 @@ document.addEventListener('DOMContentLoaded', function() {
     percentPosition: true
   });
 
+  function updateColumnWidth() {
+    var aspectRatio = window.innerWidth / window.innerHeight;
+    if (aspectRatio < 1) {
+      // If it's portrait
+      msnry.options.columnWidth = elem.offsetWidth;
+    } else {
+      // If it's landscape
+      msnry.options.columnWidth = '.image';
+    }
+    msnry.layout();
+  }
+  
+  updateColumnWidth();
+  window.addEventListener('resize', updateColumnWidth);
+
   var infScroll = new InfiniteScroll( elem, {
     path: 'a.pagination__next',
     append: '.image',
     history: false,
-    scrollThreshold: 300,
+    scrollThreshold: 0,
     status: '.page-load-status',
     debug: true,
     outlayer: msnry,  // use Masonry as the layout view
   });
 
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        var video = entry.target;
-        if (video) {
-          video.src = video.getAttribute('data-src');
-          video.load();
-        }
+  function updateVideos() {
+    document.querySelectorAll('.image-gallery video[data-src]').forEach(function(video) {
+      var rect = video.getBoundingClientRect();
+      var isInViewport = rect.top <= window.innerHeight && rect.bottom >= 0;
+      if (isInViewport) {
+        video.src = video.getAttribute('data-src');
+        video.removeAttribute('data-src');
+        video.load();
       }
     });
-  }, {
-    rootMargin: '100px' // load when the video is within 100px from the viewport
-  });
+  }
 
   function initializeVideo(video) {
     video.onloadeddata = function() {
@@ -265,8 +278,8 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('Error loading video:', video.src);
       video.parentElement.style.display = 'none'; // Hide the video
     };
-
-    observer.observe(video);
+    
+    updateVideos();
   }
 
   document.querySelectorAll('.image-gallery video').forEach(initializeVideo);
@@ -278,6 +291,11 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeVideo(video);
       }
     });
+  });
+  window.addEventListener('scroll', updateVideos);
+  window.addEventListener('resize', updateVideos);
+  window.addEventListener('resize', function() {
+    msnry.layout();
   });
 });
 </script>
@@ -301,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <footer class="fixed-bottom">
       <div class="container mt-0">
         © Copyright 2023 MetaDriverse  . Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme.
-Last updated: June 23, 2023.
+Last updated: June 24, 2023.
       </div>
     </footer>
 
