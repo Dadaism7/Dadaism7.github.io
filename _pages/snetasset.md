@@ -6,7 +6,7 @@ pagination:
     enabled: true
     collection: "snet-asset"
     permalink: /page/:num/
-    per_page: 12
+    per_page: 15
     sort_field: date
     sort_reverse: true
     trail:
