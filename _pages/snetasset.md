@@ -14,7 +14,6 @@ pagination:
     after: 3  # The number of links after the current page
     indexpage: 'snet-asset'
 ---
-
 <header class="post-header center-text">
     <h1 class="post-title">ScenarioNet Demo</h1>
 </header>
@@ -44,11 +43,26 @@ document.addEventListener('DOMContentLoaded', function() {
     percentPosition: true
   });
 
+  function updateColumnWidth() {
+    var aspectRatio = window.innerWidth / window.innerHeight;
+    if (aspectRatio < 1) {
+      // If it's portrait
+      msnry.options.columnWidth = elem.offsetWidth;
+    } else {
+      // If it's landscape
+      msnry.options.columnWidth = '.image';
+    }
+    msnry.layout();
+  }
+  
+  updateColumnWidth();
+  window.addEventListener('resize', updateColumnWidth);
+
   var infScroll = new InfiniteScroll( elem, {
     path: 'a.pagination__next',
     append: '.image',
     history: false,
-    scrollThreshold: 300,
+    scrollThreshold: 0,
     status: '.page-load-status',
     debug: true,
     outlayer: msnry,  // use Masonry as the layout view

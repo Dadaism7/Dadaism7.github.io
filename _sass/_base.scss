@@ -1375,16 +1375,17 @@ nav[data-toggle="toc"] {
     text-decoration: none;
   }
 
-  /* Responsive settings */
-  @media (max-width: 768px) {
+  /* Styles for tablet */
+  @media screen and (max-aspect-ratio: 1/1) {
     .image {
-      width: 45%; /* adjust the width as needed */
+      width: 48%; /* approximately 2 images per row, considering the margins */
     }
   }
 
-  @media (max-width: 480px) {
+  /* Styles for mobile */
+  @media screen and (max-aspect-ratio: 2/3) {
     .image {
-      width: 90%; /* adjust the width as needed */
+      width: 100%; /* 1 image per row */
     }
   }
 }
