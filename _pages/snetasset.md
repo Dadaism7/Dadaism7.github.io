@@ -68,19 +68,17 @@ document.addEventListener('DOMContentLoaded', function() {
     outlayer: msnry,  // use Masonry as the layout view
   });
 
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        var video = entry.target;
-        if (video) {
-          video.src = video.getAttribute('data-src');
-          video.load();
-        }
+  function updateVideos() {
+    document.querySelectorAll('.image-gallery video[data-src]').forEach(function(video) {
+      var rect = video.getBoundingClientRect();
+      var isInViewport = rect.top <= window.innerHeight && rect.bottom >= 0;
+      if (isInViewport) {
+        video.src = video.getAttribute('data-src');
+        video.removeAttribute('data-src');
+        video.load();
       }
     });
-  }, {
-    rootMargin: '100px' // load when the video is within 100px from the viewport
-  });
+  }
 
   function initializeVideo(video) {
     video.onloadeddata = function() {
@@ -94,8 +92,8 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('Error loading video:', video.src);
       video.parentElement.style.display = 'none'; // Hide the video
     };
-
-    observer.observe(video);
+    
+    updateVideos();
   }
 
   document.querySelectorAll('.image-gallery video').forEach(initializeVideo);
@@ -108,6 +106,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
+  window.addEventListener('scroll', updateVideos);
+  window.addEventListener('resize', updateVideos);
   window.addEventListener('resize', function() {
     msnry.layout();
   });
