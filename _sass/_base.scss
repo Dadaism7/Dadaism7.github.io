@@ -1378,7 +1378,7 @@ nav[data-toggle="toc"] {
   /* Styles for tablet */
   @media screen and (max-aspect-ratio: 1/1) {
     .image {
-      width: 48%; /* approximately 2 images per row, considering the margins */
+      width: 100%; /* approximately 2 images per row, considering the margins */
     }
   }
 
