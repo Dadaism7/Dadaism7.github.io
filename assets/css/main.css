@@ -1244,7 +1244,7 @@ nav[data-toggle=toc] .nav-link.active:hover {
 }
 @media screen and (max-aspect-ratio: 1/1) {
   .infinite-scroll-gallery .image {
-    width: 48%; /* approximately 2 images per row, considering the margins */
+    width: 100%; /* approximately 2 images per row, considering the margins */
   }
 }
 @media screen and (max-aspect-ratio: 2/3) {
