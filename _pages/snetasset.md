@@ -17,13 +17,28 @@ pagination:
 <header class="post-header center-text">
     <h1 class="post-title">ScenarioNet Demo</h1>
 </header>
+
+<!-- Add a tag filter -->
+<select id="tag-filter">
+    <option value="all">All</option>
+    {% for tag in site.data.tag %}
+    <option value="{{ tag }}">{{ tag }}</option>
+    {% endfor %}
+</select>
+
 <div class="infinite-scroll-gallery">
     <div class="image-gallery">
-    {% for video in paginator.posts %}
-    <div class="image">
+    <div class="sizer"></div>
+    {% assign posts = paginator.posts | sort: 'tag' %}
+    {% for video in posts %}
+    <div class="image" data-tag="{{ video.tag }}">
         <video loop muted playsinline data-src="{{ video.src }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
+        <div class="video-info">
+            <p>Tag: {{ video.tag }}</p>
+            <p>ID: {{ video.vid }}</p>
+        </div>
     </div>
     {% endfor %}
     </div>
@@ -36,27 +51,15 @@ pagination:
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  const POSTS_PER_PAGE = 15;
   var elem = document.querySelector('.image-gallery');
+  console.log('Elem:', elem);
+  
   var msnry = new Masonry( elem, {
     itemSelector: '.image', 
-    columnWidth: '.image', 
+    columnWidth: '.sizer', 
     percentPosition: true
   });
-
-  function updateColumnWidth() {
-    var aspectRatio = window.innerWidth / window.innerHeight;
-    if (aspectRatio < 1) {
-      // If it's portrait
-      msnry.options.columnWidth = elem.offsetWidth;
-    } else {
-      // If it's landscape
-      msnry.options.columnWidth = '.image';
-    }
-    msnry.layout();
-  }
-  
-  updateColumnWidth();
-  window.addEventListener('resize', updateColumnWidth);
 
   var infScroll = new InfiniteScroll( elem, {
     path: 'a.pagination__next',
@@ -65,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
     scrollThreshold: 0,
     status: '.page-load-status',
     debug: true,
-    outlayer: msnry,  // use Masonry as the layout view
+    outlayer: msnry,
   });
 
   function updateVideos() {
@@ -82,15 +85,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function initializeVideo(video) {
     video.onloadeddata = function() {
+      console.log('Video data loaded.');
       msnry.layout();
       video.play().catch(function(error) {
-        console.log('Error attempting to play:', error);
+        console.error('Error attempting to play:', error);
       });
     };
 
     video.onerror = function() {
-      console.log('Error loading video:', video.src);
-      video.parentElement.style.display = 'none'; // Hide the video
+      console.error('Error loading video:', video.src);
+      video.parentElement.style.display = 'none';
     };
     
     updateVideos();
@@ -99,23 +103,55 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.image-gallery video').forEach(initializeVideo);
 
   infScroll.on('append', function(response, path, items) {
+    console.log('InfScroll append event triggered.');
     items.forEach(function(item) {
       var video = item.querySelector('video');
       if (video) {
         initializeVideo(video);
       }
     });
+    filterVideos(tagFilter.value);
+    checkVisibleImages();
+    msnry.layout();
   });
+  
   window.addEventListener('scroll', updateVideos);
   window.addEventListener('resize', updateVideos);
   window.addEventListener('resize', function() {
     msnry.layout();
   });
+  
+  var tagFilter = document.getElementById('tag-filter');
+  
+  function filterVideos(tag) {
+    console.log('Filtering videos for tag:', tag);
+    var images = document.querySelectorAll('.image');
+    images.forEach(function(image) {
+      if (tag === 'all' || image.getAttribute('data-tag') === tag) {
+        image.style.display = '';
+      } else {
+        image.style.display = 'none';
+      }
+    });
+
+    msnry.layout();
+  }
+
+  tagFilter.addEventListener('change', function(event) {
+    console.log('Tag filter changed:', event.target.value);
+    filterVideos(event.target.value);
+    infScroll.loadNextPage();
+    msnry.layout();
+  });
+  
+  function checkVisibleImages() {
+    var images = document.querySelectorAll('.image:not([style*="display: none"])');
+    if (images.length < POSTS_PER_PAGE) {
+      infScroll.loadNextPage();
+      msnry.layout();
+    }
+  }
 });
 </script>
-
-
-
-
 
 

@@ -1350,7 +1350,15 @@ nav[data-toggle="toc"] {
     flex-wrap: wrap;
     justify-content: center;
   }
-
+  .video-info {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #666;
+  }
+  .sizer {
+    width: 30%;
+    margin: 10px;
+  }
   .image {
     width: 30%;
     margin: 10px;
@@ -1377,14 +1385,14 @@ nav[data-toggle="toc"] {
 
   /* Styles for tablet */
   @media screen and (max-aspect-ratio: 1/1) {
-    .image {
+    .image, .sizer {
       width: 100%; /* approximately 2 images per row, considering the margins */
     }
   }
 
   /* Styles for mobile */
   @media screen and (max-aspect-ratio: 2/3) {
-    .image {
+    .image, .sizer {
       width: 100%; /* 1 image per row */
     }
   }
