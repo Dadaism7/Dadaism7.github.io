@@ -1428,3 +1428,31 @@ nav[data-toggle="toc"] {
 .badge-id {
   background-color: #28a745;
 }
+#tag-filter {
+  margin-bottom: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filter-button {
+  margin: .5em;  /* Updated to add vertical margin */
+  padding: .5em 1em;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 25px;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.filter-button:hover {
+  background-color: #0056b3;
+}
+
+.filter-button.active {
+  background-color: #28a745;
+}
+
+

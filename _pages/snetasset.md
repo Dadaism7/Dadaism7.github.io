@@ -17,13 +17,16 @@ pagination:
 <header class="post-header center-text">
     <h1 class="post-title">ScenarioNet Demo</h1>
 </header>
-
-<select id="tag-filter">
-    <option value="all">All</option>
+<div style="text-align: center;">
+  <p>For faster loading times, we have compressed our videos.</p>
+  <p>For optimal viewing experience, we recommend accessing this website on a computer.</p>
+</div>
+<div id="tag-filter">
+    <button class="filter-button" data-tag="all">All</button>
     {% for tag in site.data.tag %}
-    <option value="{{ tag }}">{{ tag }}</option>
+    <button class="filter-button" data-tag="{{ tag }}">{{ tag }}</button>
     {% endfor %}
-</select>
+</div>
 
 <div class="infinite-scroll-gallery">
     <div class="image-gallery">
@@ -132,7 +135,8 @@ document.addEventListener('DOMContentLoaded', function() {
     msnry.layout();
   });
   
-  var tagFilter = document.getElementById('tag-filter');
+    var filterButtons = document.querySelectorAll('.filter-button');
+
   
     function filterVideos(tag) {
       console.log('Filtering videos for tag:', tag);
@@ -161,12 +165,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-  tagFilter.addEventListener('change', function(event) {
-    console.log('Tag filter changed:', event.target.value);
-    filterVideos(event.target.value);
-    infScroll.loadNextPage();
-    msnry.layout();
-  });
+filterButtons.forEach(function(button) {
+    button.addEventListener('click', function(event) {
+        console.log('Tag filter changed:', event.target.dataset.tag);
+        filterVideos(event.target.dataset.tag);
+        infScroll.loadNextPage();
+        msnry.layout();
+
+        // Remove the 'active' class from all buttons
+        filterButtons.forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+
+        // Add the 'active' class to the clicked button
+        event.target.classList.add('active');
+    });
+});
   
   function checkVisibleImages() {
     var images = document.querySelectorAll('.image:not([style*="display: none"])');
