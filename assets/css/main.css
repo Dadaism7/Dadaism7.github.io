@@ -1222,6 +1222,15 @@ nav[data-toggle=toc] .nav-link.active:hover {
   flex-wrap: wrap;
   justify-content: center;
 }
+.infinite-scroll-gallery .video-info {
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #666;
+}
+.infinite-scroll-gallery .sizer {
+  width: 30%;
+  margin: 10px;
+}
 .infinite-scroll-gallery .image {
   width: 30%;
   margin: 10px;
@@ -1243,12 +1252,12 @@ nav[data-toggle=toc] .nav-link.active:hover {
   text-decoration: none;
 }
 @media screen and (max-aspect-ratio: 1/1) {
-  .infinite-scroll-gallery .image {
+  .infinite-scroll-gallery .image, .infinite-scroll-gallery .sizer {
     width: 100%; /* approximately 2 images per row, considering the margins */
   }
 }
 @media screen and (max-aspect-ratio: 2/3) {
-  .infinite-scroll-gallery .image {
+  .infinite-scroll-gallery .image, .infinite-scroll-gallery .sizer {
     width: 100%; /* 1 image per row */
   }
 }
@@ -1264,6 +1273,54 @@ nav[data-toggle=toc] .nav-link.active:hover {
 
 .pagination__next {
   display: none;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  color: #fff;
+}
+
+.badge-tag {
+  background-color: #007bff;
+}
+
+.badge-id {
+  background-color: #28a745;
+}
+
+#tag-filter {
+  margin-bottom: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filter-button {
+  margin: 0.5em; /* Updated to add vertical margin */
+  padding: 0.5em 1em;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 25px;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+.filter-button:hover {
+  background-color: #0056b3;
+}
+
+.filter-button.active {
+  background-color: #28a745;
 }
 
 /*******************************************************************************
