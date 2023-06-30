@@ -1,8 +1,8 @@
 import os
 import urllib.parse
 
-directories = ["assets/scenarionet/nuplan-1-compressed/", "assets/scenarionet/nuplan-2-compressed/", "assets/scenarionet/waymo-1-compressed/","assets/scenarionet/waymo-2-compressed/"]
-src_prepend = "https://github.com/Dadaism6/metadriverse-asset/releases/download/assetsv1.0.1/"
+directories = ["assets/scenarionet/nuplan-1-newcompressed/", "assets/scenarionet/nuplan-2-newcompressed/", "assets/scenarionet/waymo-1-newcompressed/","assets/scenarionet/waymo-2-newcompressed/"]
+src_prepend = "https://github.com/Dadaism6/metadriverse-asset/releases/download/assetsv1.0.2/"
 
 # Ensure _images directory exists
 os.makedirs('_snet-asset', exist_ok=True)
@@ -23,7 +23,7 @@ for directory in directories:
 
                 # Create Markdown file in _images directory
                 with open(os.path.join('_snet-asset', filename), 'w') as f:
-                    f.write(f'---\nsrc: {src_prepend}{src}\nalt: {alt}\ntag: {tag}\nv3id: {video_id}\n---\n')
+                    f.write(f'---\nsrc: {src_prepend}{src}\nalt: {alt}\ntag: {tag}\nvid: {video_id}\n---\n')
 
 
 
