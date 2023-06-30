@@ -1408,4 +1408,23 @@ nav[data-toggle="toc"] {
 .pagination__next {
   display: none;
 }
+.badge {
+  display: inline-block;
+  padding: .25em .4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+  color: #fff;
+}
 
+.badge-tag {
+  background-color: #007bff;
+}
+
+.badge-id {
+  background-color: #28a745;
+}

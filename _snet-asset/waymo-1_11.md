@@ -3,4 +3,5 @@ src: https://github.com/Dadaism6/metadriverse-asset/releases/download/assetsv1.0
 alt: waymo-1_11
 tag: waymo-1
 vid: 11
+order: 24
 ---

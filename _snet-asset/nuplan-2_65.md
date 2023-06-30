@@ -3,4 +3,5 @@ src: https://github.com/Dadaism6/metadriverse-asset/releases/download/assetsv1.0
 alt: nuplan-2_65
 tag: nuplan-2
 vid: 65
+order: 212
 ---

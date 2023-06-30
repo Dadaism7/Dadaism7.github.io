@@ -7,8 +7,8 @@ pagination:
     collection: "snet-asset"
     permalink: /page/:num/
     per_page: 15
-    sort_field: date
-    sort_reverse: true
+    sort_field: 'order'
+    sort_reverse: false
     trail:
     before: 1 # The number of links before the current page
     after: 3  # The number of links after the current page
@@ -18,7 +18,6 @@ pagination:
     <h1 class="post-title">ScenarioNet Demo</h1>
 </header>
 
-<!-- Add a tag filter -->
 <select id="tag-filter">
     <option value="all">All</option>
     {% for tag in site.data.tag %}
@@ -29,15 +28,15 @@ pagination:
 <div class="infinite-scroll-gallery">
     <div class="image-gallery">
     <div class="sizer"></div>
-    {% assign posts = paginator.posts | sort: 'tag' %}
+    {% assign posts = paginator.posts | sort: 'order' %}
     {% for video in posts %}
     <div class="image" data-tag="{{ video.tag }}">
         <video loop muted playsinline data-src="{{ video.src }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="video-info">
-            <p>Tag: {{ video.tag }}</p>
-            <p>ID: {{ video.vid }}</p>
+        <div class="badge badge-tag">{{ video.tag }}</div>
+        <div class="badge badge-id">{{ video.vid }}</div>
         </div>
     </div>
     {% endfor %}
@@ -50,15 +49,27 @@ pagination:
 </div>
 
 <script>
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 document.addEventListener('DOMContentLoaded', function() {
   const POSTS_PER_PAGE = 15;
   var elem = document.querySelector('.image-gallery');
-  console.log('Elem:', elem);
   
   var msnry = new Masonry( elem, {
     itemSelector: '.image', 
     columnWidth: '.sizer', 
     percentPosition: true
+  });
+
+  var imageElements = Array.from(document.querySelectorAll('.image'));
+  shuffleArray(imageElements);
+  imageElements.forEach(function(imageElement) {
+    elem.appendChild(imageElement);
   });
 
   var infScroll = new InfiniteScroll( elem, {
@@ -103,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.image-gallery video').forEach(initializeVideo);
 
   infScroll.on('append', function(response, path, items) {
-    console.log('InfScroll append event triggered.');
+    shuffleArray(Array.from(items));
     items.forEach(function(item) {
       var video = item.querySelector('video');
       if (video) {
@@ -123,19 +134,32 @@ document.addEventListener('DOMContentLoaded', function() {
   
   var tagFilter = document.getElementById('tag-filter');
   
-  function filterVideos(tag) {
-    console.log('Filtering videos for tag:', tag);
-    var images = document.querySelectorAll('.image');
-    images.forEach(function(image) {
-      if (tag === 'all' || image.getAttribute('data-tag') === tag) {
-        image.style.display = '';
-      } else {
-        image.style.display = 'none';
-      }
-    });
+    function filterVideos(tag) {
+      console.log('Filtering videos for tag:', tag);
+      var images = document.querySelectorAll('.image');
+      images.forEach(function(image) {
+        var video = image.querySelector('video');
+        if (tag === 'all' || image.getAttribute('data-tag') === tag) {
+          image.style.display = '';
+          // If the video has not been loaded yet, load it now
+          if (video.getAttribute('data-src')) {
+            video.src = video.getAttribute('data-src');
+            video.removeAttribute('data-src');
+            video.load();
+          }
+        } else {
+          image.style.display = 'none';
+          // If the video has been loaded, unload it
+          if (!video.getAttribute('data-src')) {
+            video.setAttribute('data-src', video.src);
+            video.src = '';
+          }
+        }
+      });
+    
+      msnry.layout();
+    }
 
-    msnry.layout();
-  }
 
   tagFilter.addEventListener('change', function(event) {
     console.log('Tag filter changed:', event.target.value);
