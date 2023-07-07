@@ -254,12 +254,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   function updateVideos() {
-    document.querySelectorAll('.image-gallery video[data-src]').forEach(function(video) {
+    document.querySelectorAll('.image-gallery video[src]').forEach(function(video) {
       var rect = video.getBoundingClientRect();
       var isInViewport = rect.top <= window.innerHeight && rect.bottom >= 0;
       if (isInViewport) {
-        video.src = video.getAttribute('data-src');
-        video.removeAttribute('data-src');
+        video.src = video.getAttribute('src');
+        video.removeAttribute('src');
         video.load();
       }
     });
@@ -314,16 +314,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (tag === 'all' || image.getAttribute('data-tag') === tag) {
           image.style.display = '';
           // If the video has not been loaded yet, load it now
-          if (video.getAttribute('data-src')) {
-            video.src = video.getAttribute('data-src');
-            video.removeAttribute('data-src');
+          if (video.getAttribute('src')) {
+            video.src = video.getAttribute('src');
+            video.removeAttribute('src');
             video.load();
           }
         } else {
           image.style.display = 'none';
           // If the video has been loaded, unload it
-          if (!video.getAttribute('data-src')) {
-            video.setAttribute('data-src', video.src);
+          if (!video.getAttribute('src')) {
+            video.setAttribute('src', video.src);
             video.src = '';
           }
         }
