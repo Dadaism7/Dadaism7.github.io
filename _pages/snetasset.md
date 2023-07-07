@@ -34,7 +34,9 @@ pagination:
     {% assign posts = paginator.posts | sort: 'order' %}
     {% for video in posts %}
     <div class="image" data-tag="{{ video.tag }}">
-        <video loop muted playsinline data-src="{{ video.src }}" type="video/mp4">
+        <video loop muted playsinline>
+            <source src="{{ video.src }}" type="video/mp4">
+            <source src="{{ video.src }}" type="video/webm">
             Your browser does not support the video tag.
         </video>
         <div class="video-info" style="display: flex; justify-content: center; align-items: center; flex-direction: row; gap: 10px;">
