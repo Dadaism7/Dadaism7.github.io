@@ -1,7 +1,0 @@
----
-src: https://github.com/Dadaism6/metadriverse-asset/releases/download/assetsv1.0.2/nuplan-2_35.mp4
-alt: nuplan-2_35
-tag: nuplan-2
-vid: 35
-order: 12
----

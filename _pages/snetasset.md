@@ -37,9 +37,9 @@ pagination:
         <video loop muted playsinline data-src="{{ video.src }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-        <div class="video-info">
-        <div class="badge badge-tag">{{ video.tag }}</div>
-        <div class="badge badge-id">{{ video.vid }}</div>
+        <div class="video-info" style="display: flex; justify-content: center; align-items: center; flex-direction: row; gap: 10px;">
+            <div class="badge badge-tag">{{ video.tag }}</div>
+            <div class="badge badge-id">{{ video.vid }}</div>
         </div>
     </div>
     {% endfor %}
