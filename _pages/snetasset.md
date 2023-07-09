@@ -19,7 +19,7 @@ pagination:
 </header>
 <div style="text-align: center;">
   <p>For faster loading times, we have compressed our videos.</p>
-  <p>For optimal viewing experience, we recommend accessing this website on a computer.</p>
+  <p>For optimal viewing experience, we recommend accessing this website on a computer using Chrome.</p>
 </div>
 <div id="tag-filter">
     <button class="filter-button" data-tag="all">All</button>
@@ -34,9 +34,7 @@ pagination:
     {% assign posts = paginator.posts | sort: 'order' %}
     {% for video in posts %}
     <div class="image" data-tag="{{ video.tag }}">
-        <video loop muted playsinline>
-            <source src="{{ video.src }}" type="video/mp4">
-            <source src="{{ video.src }}" type="video/webm">
+        <video loop muted playsinline data-src="{{ video.src }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="video-info" style="display: flex; justify-content: center; align-items: center; flex-direction: row; gap: 10px;">
@@ -88,12 +86,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   function updateVideos() {
-    document.querySelectorAll('.image-gallery video[src]').forEach(function(video) {
+    document.querySelectorAll('.image-gallery video[data-src]').forEach(function(video) {
       var rect = video.getBoundingClientRect();
       var isInViewport = rect.top <= window.innerHeight && rect.bottom >= 0;
       if (isInViewport) {
-        video.src = video.getAttribute('src');
-        video.removeAttribute('src');
+        video.src = video.getAttribute('data-src');
+        video.removeAttribute('data-src');
         video.load();
       }
     });
@@ -148,16 +146,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (tag === 'all' || image.getAttribute('data-tag') === tag) {
           image.style.display = '';
           // If the video has not been loaded yet, load it now
-          if (video.getAttribute('src')) {
-            video.src = video.getAttribute('src');
-            video.removeAttribute('src');
+          if (video.getAttribute('data-src')) {
+            video.src = video.getAttribute('data-src');
+            video.removeAttribute('data-src');
             video.load();
           }
         } else {
           image.style.display = 'none';
           // If the video has been loaded, unload it
-          if (!video.getAttribute('src')) {
-            video.setAttribute('src', video.src);
+          if (!video.getAttribute('data-src')) {
+            video.setAttribute('data-src', video.src);
             video.src = '';
           }
         }
