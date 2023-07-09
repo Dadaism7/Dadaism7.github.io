@@ -3,8 +3,8 @@ import urllib.parse
 
 directories = ["assets/scenarionet/script-waymo-output-newcompressed/", "assets/scenarionet/script-nuplan-output-newcompressed/"]
 src_prepend = {
-    "assets/scenarionet/script-waymo-output-newcompressed/": "https://github.com/Dadaism6/metadriverse-asset/releases/download/assetsv1.0.3/",
-    "assets/scenarionet/script-nuplan-output-newcompressed/": "https://github.com/Dadaism6/metadriverse-asset/releases/download/assetsv1.0.4/"
+    "assets/scenarionet/script-waymo-output-newcompressed/": "https://raw.githubusercontent.com/Dadaism6/metadriverse-asset/main/script-waymo-output-newcompressed/",
+    "assets/scenarionet/script-nuplan-output-newcompressed/": "https://raw.githubusercontent.com/Dadaism6/metadriverse-asset/main/script-nuplan-output-newcompressed/"
 }
 
 # Ensure _images directory exists
