@@ -124,7 +124,8 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeVideo(video);
       }
     });
-    filterVideos(tagFilter.value);
+    var activeTag = document.querySelector('.filter-button.active').dataset.tag;
+    filterVideos(activeTag);
     checkVisibleImages();
     msnry.layout();
   });
