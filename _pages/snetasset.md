@@ -86,36 +86,42 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   function updateVideos() {
-    document.querySelectorAll('.image-gallery video[data-src]').forEach(function(video) {
-      var rect = video.getBoundingClientRect();
-      var isInViewport = rect.top <= window.innerHeight && rect.bottom >= 0;
-      if (isInViewport) {
-        video.src = video.getAttribute('data-src');
-        video.removeAttribute('data-src');
-        video.load();
-      }
+    document.querySelectorAll('.image-gallery video').forEach(function(video) {
+        var rect = video.getBoundingClientRect();
+        var isInViewport = rect.top <= window.innerHeight && rect.bottom >= 0;
+        // If video is in the viewport
+        if (isInViewport) {
+          if (!video.getAttribute('src')) {
+            // If the video hasn't been loaded yet, load it
+            video.src = video.getAttribute('data-src');
+            video.removeAttribute('data-src');
+            video.load();
+          }
+        }
     });
   }
+
 
   function initializeVideo(video) {
     video.onloadeddata = function() {
       console.log('Video data loaded.');
       msnry.layout();
-      video.play().catch(function(error) {
-        console.error('Error attempting to play:', error);
-      });
     };
 
     video.onerror = function() {
       console.error('Error loading video:', video.src);
+      console.log('Error code:', video.error.code);
       video.parentElement.style.display = 'none';
     };
-    
-    updateVideos();
+    video.oncanplay = function() {
+    video.play().catch(function(error) {
+      console.error('Error attempting to play:', error);
+    });
+    };
   }
 
   document.querySelectorAll('.image-gallery video').forEach(initializeVideo);
-
+  updateVideos();
   infScroll.on('append', function(response, path, items) {
     shuffleArray(Array.from(items));
     items.forEach(function(item) {
@@ -124,7 +130,8 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeVideo(video);
       }
     });
-    var activeTag = document.querySelector('.filter-button.active').dataset.tag;
+    var filterButtonActive = document.querySelector('.filter-button.active');
+    var activeTag = filterButtonActive ? filterButtonActive.dataset.tag : 'all';
     filterVideos(activeTag);
     checkVisibleImages();
     msnry.layout();
@@ -147,18 +154,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (tag === 'all' || image.getAttribute('data-tag') === tag) {
           image.style.display = '';
           // If the video has not been loaded yet, load it now
-          if (video.getAttribute('data-src')) {
-            video.src = video.getAttribute('data-src');
-            video.removeAttribute('data-src');
-            video.load();
-          }
+            if (!video.getAttribute('src')) {
+                // If the video has not been loaded yet, load it now
+                video.src = video.getAttribute('data-src');
+                video.removeAttribute('data-src');
+                video.load();
+            }
         } else {
           image.style.display = 'none';
-          // If the video has been loaded, unload it
-          if (!video.getAttribute('data-src')) {
-            video.setAttribute('data-src', video.src);
-            video.src = '';
-          }
         }
       });
     

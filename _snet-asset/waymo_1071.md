@@ -3,5 +3,5 @@ src: https://raw.githubusercontent.com/Dadaism6/metadriverse-asset/main/script-w
 alt: waymo_1071
 tag: waymo
 vid: 1071
-order: 68
+order: 66
 ---

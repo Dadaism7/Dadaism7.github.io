@@ -3,5 +3,5 @@ src: https://raw.githubusercontent.com/Dadaism6/metadriverse-asset/main/script-n
 alt: nuplan_1025
 tag: nuplan
 vid: 1025
-order: 110
+order: 106
 ---
