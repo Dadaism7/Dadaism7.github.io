@@ -34,7 +34,7 @@ pagination:
     {% assign posts = paginator.posts | sort: 'order' %}
     {% for video in posts %}
     <div class="image" data-tag="{{ video.tag }}">
-        <video loop muted playsinline data-src="{{ video.src }}" type="video/mp4">
+        <video width="1600" height="450" loop muted playsinline data-src="{{ video.src }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="video-info" style="display: flex; justify-content: center; align-items: center; flex-direction: row; gap: 10px;">
@@ -52,6 +52,23 @@ pagination:
 </div>
 
 <script>
+function detectDeviceAndBrowser() {
+    var userAgent = navigator.userAgent;
+
+    var device = /Mobi|Android|iPhone|iPad|iPod/i.test(userAgent) ? 'Mobile' : 'Computer';
+    
+    var browser = 'Unknown';
+    if (userAgent.indexOf('Chrome') > -1) {
+        browser = 'Chrome';
+    } else if (userAgent.indexOf('Safari') > -1) {
+        browser = 'Safari';
+    } // add more browsers if needed
+    
+    return { device: device, browser: browser };
+}
+
+console.log(detectDeviceAndBrowser());
+
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
@@ -61,7 +78,9 @@ function shuffleArray(array) {
 }
 document.addEventListener('DOMContentLoaded', function() {
   const POSTS_PER_PAGE = 15;
+  var { device } = detectDeviceAndBrowser();
   var elem = document.querySelector('.image-gallery');
+  var placeholderSrc = '../assets/scenarionet/transparent_video.mp4';
   
   var msnry = new Masonry( elem, {
     itemSelector: '.image', 
@@ -91,18 +110,34 @@ document.addEventListener('DOMContentLoaded', function() {
         var isInViewport = rect.top <= window.innerHeight && rect.bottom >= 0;
         // If video is in the viewport
         if (isInViewport) {
-          if (!video.getAttribute('src')) {
-            // If the video hasn't been loaded yet, load it
-            video.src = video.getAttribute('data-src');
-            video.removeAttribute('data-src');
-            video.load();
-          }
+            if (device === "Mobile" && video.getAttribute('src') == placeholderSrc) {
+                video.src = video.getAttribute('data-src');
+                video.load();
+            }
+            else if (!video.getAttribute('src') || !video.src) {
+                // If the video has not been loaded yet, load it now
+                video.src = video.getAttribute('data-src');
+                video.load();
+            }
         }
+        // else{
+        //     if (device === "Mobile") 
+        //     {   
+        //         console.log("Trigger unload!!!!");
+        //         video.pause();
+        //         video.src = placeholderSrc;
+        //         video.load();
+        //     }
+        // }
     });
   }
 
 
   function initializeVideo(video) {
+    if (device === "Mobile") {
+        video.src = placeholderSrc;
+        video.load();
+    }
     video.onloadeddata = function() {
       console.log('Video data loaded.');
       msnry.layout();
@@ -111,13 +146,28 @@ document.addEventListener('DOMContentLoaded', function() {
     video.onerror = function() {
       console.error('Error loading video:', video.src);
       console.log('Error code:', video.error.code);
+      // if (video.src != placeholderSrc) {
+      //   video.parentElement.style.display = 'none';
+      //   console.log("Removing Element!!!!");
+      // }
       video.parentElement.style.display = 'none';
     };
-    video.oncanplay = function() {
-    video.play().catch(function(error) {
-      console.error('Error attempting to play:', error);
-    });
-    };
+    if (device === 'Computer')
+    {
+        video.oncanplay = function() {
+        video.play().catch(function(error) {
+          console.error('Error attempting to play:', error);
+        });
+        };
+    }
+    else
+    {
+        video.addEventListener('click', function() {
+        video.play().catch(function(error) {
+            console.error('Error attempting to play:', error);
+          });
+        });
+    }
   }
 
   document.querySelectorAll('.image-gallery video').forEach(initializeVideo);
@@ -154,14 +204,24 @@ document.addEventListener('DOMContentLoaded', function() {
         if (tag === 'all' || image.getAttribute('data-tag') === tag) {
           image.style.display = '';
           // If the video has not been loaded yet, load it now
-            if (!video.getAttribute('src')) {
+            if (device === "Mobile" && video.getAttribute('src') == placeholderSrc) {
+                video.src = video.getAttribute('data-src');
+                video.load();
+            }
+            else if (!video.getAttribute('src') || !video.src) {
                 // If the video has not been loaded yet, load it now
                 video.src = video.getAttribute('data-src');
-                video.removeAttribute('data-src');
                 video.load();
             }
         } else {
-          image.style.display = 'none';
+          image.style.display = 'none'
+          if (video.getAttribute('src') && device === "Mobile") 
+          {
+            console.log("Trigger unload!!!!");
+            video.pause();
+            video.src = placeholderSrc;
+            video.load();
+           }
         }
       });
     
