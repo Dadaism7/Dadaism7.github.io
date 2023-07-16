@@ -67,8 +67,6 @@ function detectDeviceAndBrowser() {
     return { device: device, browser: browser };
 }
 
-console.log(detectDeviceAndBrowser());
-
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
@@ -76,11 +74,44 @@ function shuffleArray(array) {
   }
   return array;
 }
+
 document.addEventListener('DOMContentLoaded', function() {
     const POSTS_PER_PAGE = 15;
     var { device } = detectDeviceAndBrowser();
     var elem = document.querySelector('.image-gallery');
     var placeholderSrc = '../assets/scenarionet/transparent_video.mp4';
+    console.log(navigator.userAgent);
+    console.log(device);
+    let options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0
+    };
+    
+    let observer = new IntersectionObserver(onChange, options);
+    function onChange(changes, observer) {
+        changes.forEach(change => {
+        let video = change.target;
+        if (change.isIntersecting) {
+            if (device === "Mobile" && video.getAttribute('src') == placeholderSrc) {
+                video.src = video.getAttribute('data-src');
+                video.load();
+            }
+            else if (!video.getAttribute('src') || !video.src) {
+              video.src = video.getAttribute('data-src');
+              video.load();
+            }
+        } 
+        else {
+            if (device === "Mobile") {
+                video.pause();
+                video.src = placeholderSrc;
+                video.load();
+                console.log("Unloading the video");
+            }
+        }
+        });
+    }
 
     var msnry = new Masonry( elem, {
     itemSelector: '.image', 
@@ -91,7 +122,12 @@ document.addEventListener('DOMContentLoaded', function() {
     var imageElements = Array.from(document.querySelectorAll('.image'));
     shuffleArray(imageElements);
     imageElements.forEach(function(imageElement) {
-    elem.appendChild(imageElement);
+        elem.appendChild(imageElement);
+    });
+
+    document.querySelectorAll('.image-gallery video').forEach(function(video) {
+        initializeVideo(video);
+        observer.observe(video);
     });
 
     var infScroll = new InfiniteScroll( elem, {
@@ -103,39 +139,35 @@ document.addEventListener('DOMContentLoaded', function() {
         debug: true,
         outlayer: msnry,
     });
-
-    function updateVideos() {
-        document.querySelectorAll('.image-gallery video').forEach(function(video) {
-            var rect = video.getBoundingClientRect();
-            var isInViewport = rect.top <= window.innerHeight && rect.bottom >= 0;
-            // If video is in the viewport
-            if (isInViewport) {
-                if (device === "Mobile" && video.getAttribute('src') == placeholderSrc) {
-                    video.src = video.getAttribute('data-src');
-                    video.load();
-                }
-                else if (!video.getAttribute('src') || !video.src) {
-                    // If the video has not been loaded yet, load it now
-                    video.src = video.getAttribute('data-src');
-                    video.load();
-                }
-            }
-            else{
-                if (device === "Mobile") 
-                {   
-                    console.log("Trigger unload!!!!");
-                    video.pause();
-                    video.src = placeholderSrc;
-                    video.load();
-                }
-            }
+    infScroll.on('append', function(response, path, items) {
+        shuffleArray(Array.from(items));
+        items.forEach(function(item) {
+          var video = item.querySelector('video');
+          if (video) {
+            initializeVideo(video);
+            observer.observe(video);
+          }
         });
-    }
+        imagesLoaded( items, function() {
+            msnry.layout();
+        });
+        var filterButtonActive = document.querySelector('.filter-button.active');
+        var activeTag = filterButtonActive ? filterButtonActive.dataset.tag : 'all';
+        filterVideos(activeTag);
+        checkVisibleImages();
+        msnry.layout();
+    });
 
 
     function initializeVideo(video) {
+        var rect = video.getBoundingClientRect();
+        var isInViewport = rect.top <= window.innerHeight && rect.bottom >= 0;
         if (device === "Mobile") {
-            video.src = placeholderSrc;
+             if (isInViewport) {
+                video.src = video.getAttribute('data-src');
+            } else {
+                video.src = placeholderSrc;
+            }
             video.load();
         }
         video.onloadeddata = function() {
@@ -146,22 +178,17 @@ document.addEventListener('DOMContentLoaded', function() {
         video.onerror = function() {
             console.error('Error loading video:', video.src);
             console.log('Error code:', video.error.code);
-            // if (video.src != placeholderSrc) {
-            //   video.parentElement.style.display = 'none';
-            //   console.log("Removing Element!!!!");
-            // }
             video.parentElement.style.display = 'none';
         };
-        if (device === 'Computer')
-        {
+
+        if (device === 'Computer') {
             video.oncanplay = function() {
             video.play().catch(function(error) {
               console.error('Error attempting to play:', error);
             });
             };
         }
-        else
-        {
+        else {
             video.addEventListener('click', function() {
             video.play().catch(function(error) {
                 console.error('Error attempting to play:', error);
@@ -170,82 +197,58 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    document.querySelectorAll('.image-gallery video').forEach(initializeVideo);
-        updateVideos();
-        infScroll.on('append', function(response, path, items) {
-        shuffleArray(Array.from(items));
-        items.forEach(function(item) {
-          var video = item.querySelector('video');
-          if (video) {
-            initializeVideo(video);
-          }
-        });
-        var filterButtonActive = document.querySelector('.filter-button.active');
-        var activeTag = filterButtonActive ? filterButtonActive.dataset.tag : 'all';
-        filterVideos(activeTag);
-        checkVisibleImages();
-        msnry.layout();
-    });
-  
-    window.addEventListener('scroll', updateVideos);
-    window.addEventListener('resize', updateVideos);
     window.addEventListener('resize', function() {
     msnry.layout();
     });
-  
+
     var filterButtons = document.querySelectorAll('.filter-button');
 
-  
     function filterVideos(tag) {
         console.log('Filtering videos for tag:', tag);
         var images = document.querySelectorAll('.image');
         images.forEach(function(image) {
-        var video = image.querySelector('video');
-        if (tag === 'all' || image.getAttribute('data-tag') === tag) {
-            image.style.display = '';
-            // If the video has not been loaded yet, load it now
-            if (device === "Mobile" && video.getAttribute('src') == placeholderSrc) {
-                video.src = video.getAttribute('data-src');
-                video.load();
+            var video = image.querySelector('video');
+            if (tag === 'all' || image.getAttribute('data-tag') === tag) {
+                image.style.display = '';
+                var rect = video.getBoundingClientRect();
+                var isInViewport = rect.top <= window.innerHeight && rect.bottom >= 0;
+                if (isInViewport) {
+                    if (device === "Mobile" && video.getAttribute('src') == placeholderSrc) {
+                        video.src = video.getAttribute('data-src');
+                        video.load();
+                    }
+                    else if (!video.getAttribute('src') || !video.src) {
+                        video.src = video.getAttribute('data-src');
+                        video.load();
+                    }
+                }
+            } else {
+                image.style.display = 'none'
+                if (video.getAttribute('src') && device === "Mobile") {
+                    video.pause();
+                    video.src = placeholderSrc;
+                    video.load();
+                }
             }
-            else if (!video.getAttribute('src') || !video.src) {
-                // If the video has not been loaded yet, load it now
-                video.src = video.getAttribute('data-src');
-                video.load();
-            }
-        } else {
-            image.style.display = 'none'
-            if (video.getAttribute('src') && device === "Mobile") 
-            {
-                console.log("Trigger unload!!!!");
-                video.pause();
-                video.src = placeholderSrc;
-                video.load();
-            }
-        }
         });
-    
-      msnry.layout();
+        msnry.layout();
     }
 
-
-filterButtons.forEach(function(button) {
-    button.addEventListener('click', function(event) {
+    filterButtons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
         console.log('Tag filter changed:', event.target.dataset.tag);
         filterVideos(event.target.dataset.tag);
         infScroll.loadNextPage();
         msnry.layout();
 
-        // Remove the 'active' class from all buttons
         filterButtons.forEach(function(btn) {
             btn.classList.remove('active');
         });
 
-        // Add the 'active' class to the clicked button
         event.target.classList.add('active');
+        });
     });
-});
-  
+
     function checkVisibleImages() {
         var images = document.querySelectorAll('.image:not([style*="display: none"])');
         if (images.length < POSTS_PER_PAGE) {
@@ -255,5 +258,7 @@ filterButtons.forEach(function(button) {
     }
 });
 </script>
+
+
 
 
