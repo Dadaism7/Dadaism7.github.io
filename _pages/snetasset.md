@@ -77,133 +77,133 @@ function shuffleArray(array) {
   return array;
 }
 document.addEventListener('DOMContentLoaded', function() {
-  const POSTS_PER_PAGE = 15;
-  var { device } = detectDeviceAndBrowser();
-  var elem = document.querySelector('.image-gallery');
-  var placeholderSrc = '../assets/scenarionet/transparent_video.mp4';
-  
-  var msnry = new Masonry( elem, {
+    const POSTS_PER_PAGE = 15;
+    var { device } = detectDeviceAndBrowser();
+    var elem = document.querySelector('.image-gallery');
+    var placeholderSrc = '../assets/scenarionet/transparent_video.mp4';
+
+    var msnry = new Masonry( elem, {
     itemSelector: '.image', 
     columnWidth: '.sizer', 
     percentPosition: true
-  });
+    });
 
-  var imageElements = Array.from(document.querySelectorAll('.image'));
-  shuffleArray(imageElements);
-  imageElements.forEach(function(imageElement) {
+    var imageElements = Array.from(document.querySelectorAll('.image'));
+    shuffleArray(imageElements);
+    imageElements.forEach(function(imageElement) {
     elem.appendChild(imageElement);
-  });
+    });
 
-  var infScroll = new InfiniteScroll( elem, {
-    path: 'a.pagination__next',
-    append: '.image',
-    history: false,
-    scrollThreshold: 0,
-    status: '.page-load-status',
-    debug: true,
-    outlayer: msnry,
-  });
+    var infScroll = new InfiniteScroll( elem, {
+        path: 'a.pagination__next',
+        append: '.image',
+        history: false,
+        scrollThreshold: 0,
+        status: '.page-load-status',
+        debug: true,
+        outlayer: msnry,
+    });
 
-  function updateVideos() {
-    document.querySelectorAll('.image-gallery video').forEach(function(video) {
-        var rect = video.getBoundingClientRect();
-        var isInViewport = rect.top <= window.innerHeight && rect.bottom >= 0;
-        // If video is in the viewport
-        if (isInViewport) {
-            if (device === "Mobile" && video.getAttribute('src') == placeholderSrc) {
-                video.src = video.getAttribute('data-src');
-                video.load();
+    function updateVideos() {
+        document.querySelectorAll('.image-gallery video').forEach(function(video) {
+            var rect = video.getBoundingClientRect();
+            var isInViewport = rect.top <= window.innerHeight && rect.bottom >= 0;
+            // If video is in the viewport
+            if (isInViewport) {
+                if (device === "Mobile" && video.getAttribute('src') == placeholderSrc) {
+                    video.src = video.getAttribute('data-src');
+                    video.load();
+                }
+                else if (!video.getAttribute('src') || !video.src) {
+                    // If the video has not been loaded yet, load it now
+                    video.src = video.getAttribute('data-src');
+                    video.load();
+                }
             }
-            else if (!video.getAttribute('src') || !video.src) {
-                // If the video has not been loaded yet, load it now
-                video.src = video.getAttribute('data-src');
-                video.load();
+            else{
+                if (device === "Mobile") 
+                {   
+                    console.log("Trigger unload!!!!");
+                    video.pause();
+                    video.src = placeholderSrc;
+                    video.load();
+                }
             }
+        });
+    }
+
+
+    function initializeVideo(video) {
+        if (device === "Mobile") {
+            video.src = placeholderSrc;
+            video.load();
         }
-        // else{
-        //     if (device === "Mobile") 
-        //     {   
-        //         console.log("Trigger unload!!!!");
-        //         video.pause();
-        //         video.src = placeholderSrc;
-        //         video.load();
-        //     }
-        // }
-    });
-  }
-
-
-  function initializeVideo(video) {
-    if (device === "Mobile") {
-        video.src = placeholderSrc;
-        video.load();
-    }
-    video.onloadeddata = function() {
-      console.log('Video data loaded.');
-      msnry.layout();
-    };
-
-    video.onerror = function() {
-      console.error('Error loading video:', video.src);
-      console.log('Error code:', video.error.code);
-      // if (video.src != placeholderSrc) {
-      //   video.parentElement.style.display = 'none';
-      //   console.log("Removing Element!!!!");
-      // }
-      video.parentElement.style.display = 'none';
-    };
-    if (device === 'Computer')
-    {
-        video.oncanplay = function() {
-        video.play().catch(function(error) {
-          console.error('Error attempting to play:', error);
-        });
+        video.onloadeddata = function() {
+            console.log('Video data loaded.');
+            msnry.layout();
         };
+        
+        video.onerror = function() {
+            console.error('Error loading video:', video.src);
+            console.log('Error code:', video.error.code);
+            // if (video.src != placeholderSrc) {
+            //   video.parentElement.style.display = 'none';
+            //   console.log("Removing Element!!!!");
+            // }
+            video.parentElement.style.display = 'none';
+        };
+        if (device === 'Computer')
+        {
+            video.oncanplay = function() {
+            video.play().catch(function(error) {
+              console.error('Error attempting to play:', error);
+            });
+            };
+        }
+        else
+        {
+            video.addEventListener('click', function() {
+            video.play().catch(function(error) {
+                console.error('Error attempting to play:', error);
+              });
+            });
+        }
     }
-    else
-    {
-        video.addEventListener('click', function() {
-        video.play().catch(function(error) {
-            console.error('Error attempting to play:', error);
-          });
-        });
-    }
-  }
 
-  document.querySelectorAll('.image-gallery video').forEach(initializeVideo);
-  updateVideos();
-  infScroll.on('append', function(response, path, items) {
-    shuffleArray(Array.from(items));
-    items.forEach(function(item) {
-      var video = item.querySelector('video');
-      if (video) {
-        initializeVideo(video);
-      }
+    document.querySelectorAll('.image-gallery video').forEach(initializeVideo);
+        updateVideos();
+        infScroll.on('append', function(response, path, items) {
+        shuffleArray(Array.from(items));
+        items.forEach(function(item) {
+          var video = item.querySelector('video');
+          if (video) {
+            initializeVideo(video);
+          }
+        });
+        var filterButtonActive = document.querySelector('.filter-button.active');
+        var activeTag = filterButtonActive ? filterButtonActive.dataset.tag : 'all';
+        filterVideos(activeTag);
+        checkVisibleImages();
+        msnry.layout();
     });
-    var filterButtonActive = document.querySelector('.filter-button.active');
-    var activeTag = filterButtonActive ? filterButtonActive.dataset.tag : 'all';
-    filterVideos(activeTag);
-    checkVisibleImages();
-    msnry.layout();
-  });
   
-  window.addEventListener('scroll', updateVideos);
-  window.addEventListener('resize', updateVideos);
-  window.addEventListener('resize', function() {
+    window.addEventListener('scroll', updateVideos);
+    window.addEventListener('resize', updateVideos);
+    window.addEventListener('resize', function() {
     msnry.layout();
-  });
+    });
   
     var filterButtons = document.querySelectorAll('.filter-button');
 
   
     function filterVideos(tag) {
-      console.log('Filtering videos for tag:', tag);
-      var images = document.querySelectorAll('.image');
-      images.forEach(function(image) {
+        console.log('Filtering videos for tag:', tag);
+        var images = document.querySelectorAll('.image');
+        images.forEach(function(image) {
         var video = image.querySelector('video');
         if (tag === 'all' || image.getAttribute('data-tag') === tag) {
-          image.style.display = '';
-          // If the video has not been loaded yet, load it now
+            image.style.display = '';
+            // If the video has not been loaded yet, load it now
             if (device === "Mobile" && video.getAttribute('src') == placeholderSrc) {
                 video.src = video.getAttribute('data-src');
                 video.load();
@@ -214,16 +214,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 video.load();
             }
         } else {
-          image.style.display = 'none'
-          if (video.getAttribute('src') && device === "Mobile") 
-          {
-            console.log("Trigger unload!!!!");
-            video.pause();
-            video.src = placeholderSrc;
-            video.load();
-           }
+            image.style.display = 'none'
+            if (video.getAttribute('src') && device === "Mobile") 
+            {
+                console.log("Trigger unload!!!!");
+                video.pause();
+                video.src = placeholderSrc;
+                video.load();
+            }
         }
-      });
+        });
     
       msnry.layout();
     }
@@ -246,13 +246,13 @@ filterButtons.forEach(function(button) {
     });
 });
   
-  function checkVisibleImages() {
-    var images = document.querySelectorAll('.image:not([style*="display: none"])');
-    if (images.length < POSTS_PER_PAGE) {
-      infScroll.loadNextPage();
-      msnry.layout();
+    function checkVisibleImages() {
+        var images = document.querySelectorAll('.image:not([style*="display: none"])');
+        if (images.length < POSTS_PER_PAGE) {
+          infScroll.loadNextPage();
+          msnry.layout();
+        }
     }
-  }
 });
 </script>
 
