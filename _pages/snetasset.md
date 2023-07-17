@@ -180,21 +180,25 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Error code:', video.error.code);
             video.parentElement.style.display = 'none';
         };
-
-        if (device === 'Computer') {
-            video.oncanplay = function() {
+        video.oncanplay = function() {
             video.play().catch(function(error) {
               console.error('Error attempting to play:', error);
             });
-            };
-        }
-        else {
-            video.addEventListener('click', function() {
-            video.play().catch(function(error) {
-                console.error('Error attempting to play:', error);
-              });
-            });
-        }
+        };
+        // if (device === 'Computer') {
+        //     video.oncanplay = function() {
+        //     video.play().catch(function(error) {
+        //       console.error('Error attempting to play:', error);
+        //     });
+        //     };
+        // }
+        // else {
+        //     video.addEventListener('click', function() {
+        //     video.play().catch(function(error) {
+        //         console.error('Error attempting to play:', error);
+        //       });
+        //     });
+        // }
     }
 
     window.addEventListener('resize', function() {
