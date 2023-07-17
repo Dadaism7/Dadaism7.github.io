@@ -42,7 +42,8 @@ a:link, a:visited, a:hover, a:active {
 <a href="https://metadriverse.github.io/scenarionet/"><b>Webpage</b></a> |
 <a  href="https://github.com/metadriverse/scenarionet"><b>Code</b></a> |
 <a  href="#"><b>Video</b></a> |
-<a  href="https://arxiv.org/abs/2306.12241"><b>Paper</b></a>
+<a  href="https://arxiv.org/abs/2306.12241"><b>Paper</b></a> |
+<a  href="/snetasset/snet-asset.html"><b>Browse Scenario</b></a>
 </h5>
 </div>
 
