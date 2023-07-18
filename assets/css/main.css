@@ -1223,16 +1223,16 @@ nav[data-toggle=toc] .nav-link.active:hover {
   justify-content: center;
 }
 .infinite-scroll-gallery .video-info {
-  margin-top: 10px;
+  margin-top: 0px;
   font-size: 0.9em;
   color: #666;
 }
 .infinite-scroll-gallery .sizer {
-  width: 30%;
+  width: 45%;
   margin: 10px;
 }
 .infinite-scroll-gallery .image {
-  width: 30%;
+  width: 45%;
   margin: 10px;
   overflow: hidden;
 }
