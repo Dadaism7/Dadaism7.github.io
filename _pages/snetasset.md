@@ -34,9 +34,11 @@ pagination:
     {% assign posts = paginator.posts | sort: 'order' %}
     {% for video in posts %}
     <div class="image" data-tag="{{ video.tag }}">
-        <video width="1600" height="450" loop muted playsinline data-src="{{ video.src }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <div class="video-container">
+            <video loop muted autoplay playsinline  data-src="{{ video.src }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
         <div class="video-info" style="display: flex; justify-content: center; align-items: center; flex-direction: row; gap: 10px;">
             <div class="badge badge-tag">{{ video.tag }}</div>
             <div class="badge badge-id">{{ video.vid }}</div>
@@ -178,7 +180,8 @@ document.addEventListener('DOMContentLoaded', function() {
         video.onerror = function() {
             console.error('Error loading video:', video.src);
             console.log('Error code:', video.error.code);
-            video.parentElement.style.display = 'none';
+            // video.parentElement.style.display = 'none';
+            video.closest('.image').remove();
         };
         video.oncanplay = function() {
             video.play().catch(function(error) {
